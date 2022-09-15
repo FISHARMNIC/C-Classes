@@ -30,10 +30,11 @@ typedef int (*method_t)();
 //#define uses_methods(class, amt, ...) method_t methods_used; method_t *methods;} Class(class); methods_for(class, amt) = {__VA_ARGS__}
 #define methods_for(class) method_t class##_methods[]
 #define initiates(class)                                                    \
+    String_t this; \
     this.methods = class##_methods;                                         \
     this.methods_used = sizeof class##_methods / sizeof class##_methods[0]; \
 
-#define New(class, name,...) constructor(class)(__VA_ARGS__); name.execute = _exec_fn_(name);
+#define New(class, name,...) name = constructor(class)(__VA_ARGS__); name.execute = _exec_fn_(name)
 
 #define init_fn()
 

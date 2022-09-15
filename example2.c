@@ -5,64 +5,64 @@
 // Define the structure of the class
 typedef struct
 {
-    // Include any properties 
-    char * contents;
+    // Include any properties here
+    char *contents;
 
     // Define the inclusion of the constructor
     includes(void, constructor(String));
 
-    // Specify that you the class uses methods
+    // Specify that the class uses methods
     uses_methods();
+
 } Class(String); // Create the class "String"
 
-// Defines the function "length" as an extension of "String"
+// Defines the function "length" as a method belonging to "String"
 int extends(String, length)(void)
 {
+    //use <type>_this to read the contents of the structure
     return strlen(String_this.contents);
 }
 
-// Defines the function "charAt" as an extension of "String"
-int extends(String, charAt)(int parg)
+// Defines the function "charAt" as a method belonging to "String"
+int extends(String, charAt)(int index)
 {
-    return String_this.contents[parg];
+    return String_this.contents[index];
 }
 
-// Specifies the methods used for "String"
-// Casts to "method_t" to assert the correct type of function
+// Specify the methods to use for "String"
 methods_for(String) = {
     (method_t) extends(String, length),
     (method_t) extends(String, charAt),
 };
 
-// Create macros to ease yourself, in accordance with the order of the "methos_for" array
-#define length 0
-#define charAt 1
+// "methods_for" is stores as a list with the method id. Create macros to ease yourself
+#define length 0 // index 0
+#define charAt 1 // index 1
 
-// Create the constructor with the parameters you want
-String_t constructor(String)(char * contents)
+// Create the constructor for the class with the parameters you want
+// Note you need to return <classname>_t
+String_t constructor(String)(char *contents)
 {
-    // "this" will be the returned value
-    String_t this;
-
-    // Specify that this is the initiator function
+    // Specify that this is the initiator/constructor function
     initiates(String);
 
-    // Modify and properties 
+    // Modify the properties using "this"
     this.contents = contents;
 
-    // Return the value
+    // Return "this" to initialize the object
     return this;
 }
 
-// Globally declare the "myString" class as a string
+// Globally declare the your class
 asClass(String, myString);
 
 int main()
 {
-    // Initiate the class starting with the type, name, and any parameters specified by the constructor
-    myString = New(String, myString, "Hello, World!");
+    // Initiate the class starting with the type and name, followed by any parameters specified by the constructor
+    New(String, myString, "Hello, World!");
 
     // Call methods with the "execute" property
+    // Pass the function name or identification number
     printf("The length of \"%s\" is %i \n", myString.contents, myString.execute(length));
-    printf("The 1'st character of \"%s\" is %c \n", myString.contents, myString.execute(charAt, 1));
+    printf("The 0'th character of \"%s\" is '%c' \n", myString.contents, myString.execute(charAt, 0));
 }

@@ -33,7 +33,6 @@ methods_for(Room) = {
 
 Room_t constructor(Room)(int width, int height)
 {
-    Room_t this;
     initiates(Room);
     this.width = width;
     this.height = height;
