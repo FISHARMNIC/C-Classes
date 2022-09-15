@@ -4,70 +4,109 @@
 ```C
 #include <stdio.h>
 #include <string.h>
+
 #include "lib.h"
 
-// Define the structure of the class
+// Define your new class like so
 typedef struct
 {
-    // Include any properties here
+    // Create any properties you want
     char *contents;
-
-    // Define the inclusion of the constructor
-    includes(void, constructor(String));
-
-    // Specify that the class uses methods
+    
+    // Specify the constructor you are including 
+    includes(constructor(String));
+    
+    // Specify that you are going to be using methods
     uses_methods();
+} Class(String); // <-- Name of the class. Creates the <class> and <class_t> types
 
-} Class(String); // Create the class "String"
-
-// Defines the function "length" as a method belonging to "String"
-int extends(String, length)(void)
+// Create a method for the Class
+// Return a 64 bit number to permit all data types
+uint64_t extends(String, length)(void) 
 {
-    //use <type>_this to read the contents of the structure
-    return strlen(String_this.contents);
+    // Use <class>_this to access the object
+    // You should cast values before returning them as the 64 bit number
+    return (int)strlen(String_this.contents);
 }
 
-// Defines the function "charAt" as a method belonging to "String"
-int extends(String, charAt)(int index)
+uint64_t extends(String, charAt)(int index) 
 {
-    return String_this.contents[index];
+    return (char)String_this.contents[index];
 }
 
-// Specify the methods to use for "String"
+uint64_t extends(String, indexOf)(char character)
+{
+    int len = strlen(String_this.contents);
+    int index;
+    while (index < len)
+    {
+        if (String_this.contents[index] == character)
+            return index;
+        index++;
+    }
+    return -1;
+}
+
+// You can only have one parameter in a method, so use an array to pass multiple
+uint64_t extends(String, substring)(int args[2])
+{
+    int start = args[0];
+    int end = args[1];
+
+    if (end < start || end > strlen(String_this.contents))
+        return 0;
+
+    char *newString = malloc(end - start + 1);
+
+    int j = 0;
+    for (int i = start; i < end; i++, j++)
+    {
+        newString[j] = String_this.contents[i];
+    }
+    newString[++j] = '\0';
+
+    return (uint64_t)newString;
+}
+
+// These are all the methods that are to included in the class
 methods_for(String) = {
-    (method_t) extends(String, length),
-    (method_t) extends(String, charAt),
-};
+    (method_t)extends(String, length),
+    (method_t)extends(String, charAt),
+    (method_t)extends(String, indexOf),
+    (method_t)extends(String, substring)};
 
-// "methods_for" is stores as a list with the method id. Create macros to ease yourself
+// The array of methods ^^^ may be difficult to access. So create macros to ease yourself
 #define length 0 // index 0
 #define charAt 1 // index 1
+#define indexOf 2
+#define substring 3
 
-// Create the constructor for the class with the parameters you want
-// Note you need to return <classname>_t
+// The constructor function should return <class>_t
 String_t constructor(String)(char *contents)
 {
-    // Specify that this is the initiator/constructor function
     initiates(String);
-
-    // Modify the properties using "this"
+    
+    // Use "this" to set the objects properties
     this.contents = contents;
-
-    // Return "this" to initialize the object
     return this;
 }
 
-// Globally declare the your class
+// Globally declare your object like so
 asClass(String, myString);
 
 int main()
 {
-    // Initiate the class starting with the type and name, followed by any parameters specified by the constructor
+    // Initiate the class with the type and name, followed by any parameters specified by the constructor
+    // Unlike methods, the constructor can take multiple parameters
     New(String, myString, "Hello, World!");
 
-    // Call methods with the "execute" property
-    // Pass the function name or identification number
-    printf("The length of \"%s\" is %i \n", myString.contents, myString.execute(length));
-    printf("The 0'th character of \"%s\" is '%c' \n", myString.contents, myString.execute(charAt, 0));
+    printf("The length of \"%s\" is %llu \n", myString.contents, myString.execute(length));
+    // It's important to cast back from the 64 bit return value to avoid warnings
+    printf("The 0'th character of \"%s\" is '%c' \n", myString.contents, (char)myString.execute(charAt, 0));
+
+    char *substr = (char *)myString.execute(substring, (int[]){7, 12});
+    printf("Characters 7-12 are %s \n", substr);
+    free(substr);
 }
+
 ```
