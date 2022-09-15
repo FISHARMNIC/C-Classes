@@ -6,7 +6,7 @@ typedef struct
     int height;
     int width;
 
-    includes(void, constructor(Room));
+    includes(constructor(Room));
 
     uses_methods();
 

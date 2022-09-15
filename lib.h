@@ -21,7 +21,7 @@ typedef uint64_t (*method_t)();
 
 #define constructor(class) class##_cons__
 #define extends(class, name) class##_##name
-#define includes(returnType, name) returnType (*name)()
+#define includes(name) uint64_t (*name)()
 
 #define uses_methods() \
     method_t execute;  \

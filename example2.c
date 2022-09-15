@@ -6,7 +6,7 @@
 typedef struct
 {
     char *contents;
-    includes(void, constructor(String));
+    includes(constructor(String));
     uses_methods();
 } Class(String);
 
