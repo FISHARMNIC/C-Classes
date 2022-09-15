@@ -1,7 +1,8 @@
 #include <stdlib.h>
+#include <stdint.h>
 
 typedef void constructor_t();
-typedef int (*method_t)();
+typedef uint64_t (*method_t)();
 
 #define Class(name)         \
     name##_t;               \
@@ -12,7 +13,7 @@ typedef int (*method_t)();
 
 #define asClass(class, variable)                \
     class##_t variable;                         \
-    int variable##_execute(int fn, void *param) \
+    uint64_t variable##_execute(int fn, void *param) \
     {                                           \
         class##_this = variable;                \
         return variable.methods[fn](param);     \
@@ -30,7 +31,7 @@ typedef int (*method_t)();
 //#define uses_methods(class, amt, ...) method_t methods_used; method_t *methods;} Class(class); methods_for(class, amt) = {__VA_ARGS__}
 #define methods_for(class) method_t class##_methods[]
 #define initiates(class)                                                    \
-    String_t this; \
+    class##_t this; \
     this.methods = class##_methods;                                         \
     this.methods_used = sizeof class##_methods / sizeof class##_methods[0]; \
 

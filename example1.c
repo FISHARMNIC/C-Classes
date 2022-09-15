@@ -47,10 +47,11 @@ asClass(Room, bedroom);
 
 int main()
 {
-    livingRoom = New(Room, livingRoom, 10, 10);
-    bedroom = New(Room, bedroom, 15, 5);
-    printf("The area of the bedroom is: %i \n", livingRoom.execute(area));
-    printf("The area of the livingroom is: %i \n", bedroom.execute(area));
+    New(Room, livingRoom, 10, 10);
+    New(Room, bedroom, 15, 5);
+    
+    printf("The area of the bedroom is: %i \n", (int) livingRoom.execute(area));
+    printf("The area of the livingroom is: %i \n", (int) bedroom.execute(area));
 
-    printf("The volume of the bedroom is: %i \n", livingRoom.execute(volume, 23));
+    printf("The volume of the bedroom is: %i \n", (int) livingRoom.execute(volume, 23));
 }
