@@ -50,8 +50,8 @@ int main()
     New(Room, livingRoom, 10, 10);
     New(Room, bedroom, 15, 5);
     
-    printf("The area of the bedroom is: %i \n", (int) livingRoom.execute(area));
-    printf("The area of the livingroom is: %i \n", (int) bedroom.execute(area));
+    printf("The area of the bedroom is: %i \n", (int) livingRoom.method(area));
+    printf("The area of the livingroom is: %i \n", (int) bedroom.method(area));
 
-    printf("The volume of the bedroom is: %i \n", (int) livingRoom.execute(volume, 23));
+    printf("The volume of the bedroom is: %i \n", (int) livingRoom.method(volume, 23));
 }

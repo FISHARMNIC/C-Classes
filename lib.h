@@ -9,14 +9,16 @@ typedef uint64_t (*method_t)();
     typedef name##_t *name; \
     name##_t name##_this
 
-#define _exec_fn_(variable) variable##_execute
+#define _exec_fn_(variable) variable##_method
 
 #define asClass(class, variable)                \
     class##_t variable;                         \
-    uint64_t variable##_execute(int fn, void *param) \
+    uint64_t variable##_method(int fn, void *param) \
     {                                           \
         class##_this = variable;                \
-        return variable.methods[fn](param);     \
+        uint64_t rtnV = variable.methods[fn](param); \
+        variable = class##_this; \
+        return rtnV; \
     }
 
 #define constructor(class) class##_cons__
@@ -24,7 +26,7 @@ typedef uint64_t (*method_t)();
 #define includes(name) uint64_t (*name)()
 
 #define uses_methods() \
-    method_t execute;  \
+    method_t method;  \
     int methods_used;  \
     method_t *methods
 
@@ -35,9 +37,9 @@ typedef uint64_t (*method_t)();
     this.methods = class##_methods;                                         \
     this.methods_used = sizeof class##_methods / sizeof class##_methods[0]; \
 
-#define New(class, name,...) name = constructor(class)(__VA_ARGS__); name.execute = _exec_fn_(name)
+#define New(class, name,...) name = constructor(class)(__VA_ARGS__); name.method = _exec_fn_(name)
 
 #define init_fn()
 
-// #define class_param(type, name, value) type *name = malloc(sizeof(type)); *name = value
-// #define class_param_as(type, name) (*((type *)name))
+#define RPOINTER (uintptr_t)
+#define RVALUE (uint64_t)
