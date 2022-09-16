@@ -10,19 +10,19 @@ typedef struct
     uses_methods();
 } Class(String);
 
-uint64_t extends(String, length)(void) 
+uint64_t method(String, length)(void) 
 {
     methodfor(String);
-    return (int)strlen(this->contents);
+    return RVALUE(int) strlen(this->contents);
 }
 
-uint64_t extends(String, charAt)(int index) 
+uint64_t method(String, charAt)(int index) 
 {
     methodfor(String);
-    return (char)this->contents[index];
+    return RVALUE(char) this->contents[index];
 }
 
-uint64_t extends(String, indexOf)(char character)
+uint64_t method(String, indexOf)(char character)
 {
     methodfor(String);
     int len = strlen(this->contents);
@@ -30,13 +30,13 @@ uint64_t extends(String, indexOf)(char character)
     while (index < len)
     {
         if (this->contents[index] == character)
-            return index;
+            return RVALUE(int) index;
         index++;
     }
-    return -1;
+    return RVALUE(int) -1;
 }
 
-uint64_t extends(String, substring)(int args[2])
+uint64_t method(String, substring)(int args[2])
 {
     methodfor(String);
     int start = args[0];
@@ -58,10 +58,10 @@ uint64_t extends(String, substring)(int args[2])
 }
 
 methods_for(String) = {
-    (method_t)extends(String, length),
-    (method_t)extends(String, charAt),
-    (method_t)extends(String, indexOf),
-    (method_t)extends(String, substring)};
+    (method_t)method(String, length),
+    (method_t)method(String, charAt),
+    (method_t)method(String, indexOf),
+    (method_t)method(String, substring)};
 
 #define length 0 // index 0
 #define charAt 1 // index 1
@@ -81,10 +81,10 @@ int main()
 {
     New(String, myString, "Hello, World!");
 
-    printf("The length of \"%s\" is %llu \n", myString.contents, myString.method(length));
-    printf("The 0'th character of \"%s\" is '%c' \n", myString.contents, (char)myString.method(charAt, 0));
+    printf("The length of \"%s\" is %llu \n", myString.contents, myString.call(length));
+    printf("The 0'th character of \"%s\" is '%c' \n", myString.contents, (char)myString.call(charAt, 0));
 
-    char *substr = (char *)myString.method(substring, (int[]){7, 12});
+    char *substr = (char *)myString.call(substring, (int[]){7, 12});
     printf("Characters 7-12 are %s \n", substr);
     free(substr);
 }
