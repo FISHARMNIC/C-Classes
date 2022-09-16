@@ -100,11 +100,11 @@ int main()
     // Unlike methods, the constructor can take multiple parameters
     New(String, myString, "Hello, World!");
 
-    printf("The length of \"%s\" is %llu \n", myString.contents, myString.execute(length));
+    printf("The length of \"%s\" is %llu \n", myString.contents, myString.method(length));
     // It's important to cast back from the 64 bit return value to avoid warnings
-    printf("The 0'th character of \"%s\" is '%c' \n", myString.contents, (char)myString.execute(charAt, 0));
+    printf("The 0'th character of \"%s\" is '%c' \n", myString.contents, (char)myString.method(charAt, 0));
 
-    char *substr = (char *)myString.execute(substring, (int[]){7, 12});
+    char *substr = (char *)myString.method(substring, (int[]){7, 12});
     printf("Characters 7-12 are %s \n", substr);
     free(substr);
 }
