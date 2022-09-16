@@ -1,4 +1,4 @@
-# ObjectOrientedC
+# C-Classes
 ## A library that permits Classes in C
 
 ```C
