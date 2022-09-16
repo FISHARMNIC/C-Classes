@@ -14,21 +14,25 @@ typedef struct
 
 uint64_t extends(Int_Array, push)(int value)
 {
-    int* oldAddr = Int_Array_this.arr;
-    int* newAddr = malloc(Int_Array_this.length * sizeof(int) + 1);
-    memcpy(newAddr, oldAddr, (Int_Array_this.length) * sizeof(int) + 1);
+    methodfor(Int_Array);
+
+    int* oldAddr = this->arr;
+    int* newAddr = malloc(this->length * sizeof(int) + 1);
+    memcpy(newAddr, oldAddr, (this->length) * sizeof(int) + 1);
     free(oldAddr);
-    newAddr[++Int_Array_this.length] = value;
-    Int_Array_this.arr = newAddr;
+    newAddr[++this->length] = value;
+    this->arr = newAddr;
     return RPOINTER newAddr;
 }
 
 uint64_t extends(Int_Array, pop)(void)
 {
-    int* oldAddr = Int_Array_this.arr;
-    int* newAddr = malloc(Int_Array_this.length * sizeof(int) - 1);
-    memcpy(newAddr, oldAddr, (Int_Array_this.length) * sizeof(int) - 1);
-    int ret = oldAddr[Int_Array_this.length--];
+    methodfor(Int_Array);
+
+    int* oldAddr = this->arr;
+    int* newAddr = malloc(this->length * sizeof(int) - 1);
+    memcpy(newAddr, oldAddr, (this->length) * sizeof(int) - 1);
+    int ret = oldAddr[this->length--];
     free(oldAddr);
     return RVALUE ret;
 }
@@ -59,13 +63,13 @@ int main()
     for(i = 0; i <= myArr.length; i++)
         printf("- %i\n", myArr.arr[i]);
 
-    myArr.execute(push, 4);
+    myArr.method(push, 4);
 
     printf("----\n");
     for(i = 0; i <= myArr.length; i++)
         printf("- %i\n", myArr.arr[i]);
     
-    myArr.execute(pop);
+    myArr.method(pop);
 
     printf("----\n");
     for(i = 0; i <= myArr.length; i++)

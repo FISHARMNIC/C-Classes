@@ -12,21 +12,24 @@ typedef struct
 
 uint64_t extends(String, length)(void) 
 {
-    return (int)strlen(String_this.contents);
+    methodfor(String);
+    return (int)strlen(this->contents);
 }
 
 uint64_t extends(String, charAt)(int index) 
 {
-    return (char)String_this.contents[index];
+    methodfor(String);
+    return (char)this->contents[index];
 }
 
 uint64_t extends(String, indexOf)(char character)
 {
-    int len = strlen(String_this.contents);
+    methodfor(String);
+    int len = strlen(this->contents);
     int index;
     while (index < len)
     {
-        if (String_this.contents[index] == character)
+        if (this->contents[index] == character)
             return index;
         index++;
     }
@@ -35,10 +38,11 @@ uint64_t extends(String, indexOf)(char character)
 
 uint64_t extends(String, substring)(int args[2])
 {
+    methodfor(String);
     int start = args[0];
     int end = args[1];
 
-    if (end < start || end > strlen(String_this.contents))
+    if (end < start || end > strlen(this->contents))
         return 0;
 
     char *newString = malloc(end - start + 1);
@@ -46,7 +50,7 @@ uint64_t extends(String, substring)(int args[2])
     int j = 0;
     for (int i = start; i < end; i++, j++)
     {
-        newString[j] = String_this.contents[i];
+        newString[j] = this->contents[i];
     }
     newString[++j] = '\0';
 

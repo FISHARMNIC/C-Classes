@@ -13,13 +13,15 @@ typedef struct
 } Class(Room);
 
 int extends(Room, area)(void)
-{
-    return (Room_this.height * Room_this.width);
+{  
+    methodfor(Room);
+    return (this->height * this->width);
 }
 
 int extends(Room, volume)(int vertical)
 {
-    return (Room_this.height * Room_this.width * vertical);
+    methodfor(Room);
+    return (this->height * this->width * vertical);
 }
 
 
