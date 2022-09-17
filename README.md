@@ -1,5 +1,6 @@
 # C-Classes
 ## A library that permits Classes in C
+### Note that this does _not_ use C++, not sure why github claims so
 ```C
 #include <stdio.h>
 #include "lib.h"
